@@ -1,11 +1,28 @@
 <div>
-    <h1> Productos Disponibles</h1>
+    <h2>Productos Disponibles</h2>
     {{#each products}}
     <div>
         <span>{{this.title}}:</span>
         <span>{{this.description}}</span>
         <p>Precio: ${{this.price}}</p>
         <p>Stock: {{this.stock}}</p>
+        <p>Categoría: {{this.category}}</p>
+        <p>Status: {{this.status}}</p>
+        <button>Añadir al carrito</button>
+        <br/><br/>
     </div>
     {{/each}}
+    <br/><br/>
+    <div>
+        {{#if hasPrevPage}}
+            <a href={{prevLink}}>
+                <button>Anterior</button>
+            </a>
+        {{/if}}
+        {{#if hasNextPage}}
+            <a href={{nextLink}}>
+                <button>Siguiente</button>
+            </a>
+        {{/if}}
+    </div>
 </div>

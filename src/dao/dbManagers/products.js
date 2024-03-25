@@ -3,7 +3,7 @@ import productsModel from '../models/products.js'
 export default class Products{
 
     constructor(){
-        console.log('Trabajando con productos en mongoDB')
+        //console.log('Trabajando con productos en mongoDB')
     }
 
     getAll = async() => {

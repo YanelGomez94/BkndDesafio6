@@ -3,7 +3,7 @@ import messagesModel from '../models/messages.js'
 export default class Messages{
    
     constructor(){
-        console.log('Trabajando con mensajes en mongoDB')
+        //console.log('Trabajando con mensajes en mongoDB')
     }
     getAll = async() => {
         let messages = await messagesModel.find().lean()
