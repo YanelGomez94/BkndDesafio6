@@ -5,12 +5,8 @@ import productsModel from "../dao/models/products.js";
 const router = Router()
 const ProductManager = new Products()
 
-/**
- * http://localhost:8080/products?limit=5
- * http://localhost:8080/products?query=ropa
+/**http://localhost:8080/products?query=ropa
  * http://localhost:8080/products?query=false
-   http://localhost:8080/products?query=ropa&limit=2
-   http://localhost:8080/products?query=false&sort=desc
  */
 router.get('/', async (req, res)=>{
     try{
@@ -50,7 +46,7 @@ router.get('/:pid', async (req, res)=>{
     try{
         const id = req.params.pid
         let product = await ProductManager.getById(id)
-        if(product.length > 0)
+        if(product)
             res.send({ status:"Success", payload: product})
         else
             res.status(400).send({status:"Error", error: `Product with ID ${id} not found`})

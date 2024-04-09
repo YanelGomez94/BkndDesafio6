@@ -1,4 +1,15 @@
 <div>
+    <h1>Bienvenido!</h1>
+    <div>
+        <p>Nombre: {{user.name}}</p>
+        <p>Correo: {{user.email}}</p>
+        <p>Edad: {{user.age}}</p>
+        <p>Rol: {{user.rol}}</p>
+    </div>
+    <a href="/logout">
+        <button>Logout</button>
+    </a>
+    <br/>
     <h2>Productos Disponibles</h2>
     {{#each products}}
     <div>

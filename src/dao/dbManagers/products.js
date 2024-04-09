@@ -12,7 +12,7 @@ export default class Products{
     }
 
     getById = async(id) => {
-        let product = await productsModel.find({_id: id})
+        let product = await productsModel.findOne({_id: id})
         return product;
     }
 
@@ -24,7 +24,7 @@ export default class Products{
     updateProduct = async (id, product) => {
         let result = []
         const exist = await this.getById(id)
-        if(exist.length > 0)
+        if(exist)
             result = await productsModel.updateOne({_id: id}, product)
         else
             result = false
@@ -34,7 +34,7 @@ export default class Products{
     deleteProduct = async (id) => {
         let result = []
         const exist = await this.getById(id)
-        if(exist.length > 0)
+        if(exist)
             result = await productsModel.deleteOne({_id: id})
         else
             result = false

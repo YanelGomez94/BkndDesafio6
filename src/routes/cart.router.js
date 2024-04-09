@@ -17,7 +17,7 @@ router.get('/:cid', async (req, res)=>{
     try{    
         const id = req.params.cid
         let cart = await CartsManager.getById(id)
-        if(cart.length > 0)
+        if(cart)
             res.send({ status:"success", payload: cart})
         else
             res.status(400).send({status:"Error", error: `Cart with ID ${id} not found`})
