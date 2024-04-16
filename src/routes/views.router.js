@@ -23,19 +23,24 @@ router.get('/products', async (req,res) => {
             sort: sort === 'asc' ? { price: 1 } : sort === 'desc' ? { price: -1 } : undefined,
             lean: true
         }
-        const products = await productsModel.paginate(filter,options)
-        res.render('products',{     
-            user: req.session.user,
-            products: products.docs, 
-            totalPages: products.totalPages,
-            prevPage: products.prevPage,
-            nextPage: products.nextPage,
-            page: products.page,
-            hasPrevPage: products.hasPrevPage,
-            hasNextPage: products.hasNextPage,
-            prevLink: products.hasPrevPage ? `http://localhost:8080/products?page=${products.prevPage}` : '',
-            nextLink: products.hasNextPage ? `http://localhost:8080/products?page=${products.nextPage}` : ''
-        })
+        if (req.isAuthenticated()) {
+            const user = req.session.passport.user
+            const products = await productsModel.paginate(filter,options)
+            res.render('products',{     
+                user: user,
+                products: products.docs, 
+                totalPages: products.totalPages,
+                prevPage: products.prevPage,
+                nextPage: products.nextPage,
+                page: products.page,
+                hasPrevPage: products.hasPrevPage,
+                hasNextPage: products.hasNextPage,
+                prevLink: products.hasPrevPage ? `http://localhost:8080/products?page=${products.prevPage}` : '',
+                nextLink: products.hasNextPage ? `http://localhost:8080/products?page=${products.nextPage}` : ''
+            })
+        } else {
+            res.redirect('/');
+        }
 })
   
 router.get('/carts/:cid', async(req,res) => {
@@ -76,16 +81,22 @@ router.get("/", (req, res) => {
 })
   
 router.get("/profile", (req, res) => {
-    res.render("profile", {
-      user: req.session.user,
-    })
+    if (req.isAuthenticated()) {
+        res.render("profile", {
+            user: req.session.user,
+        })
+    } else 
+        res.redirect('/');
+})
+
+router.get('/resetPassword',(req,res)=>{
+    res.render('resetPassword');
 })
 
 router.get('/logout',(req,res)=>{
     req.session.destroy(err=>{
         if(!err){
-            //res.send({status: 'succes', message: 'Sesion cerrada con exito'})
-            res.render('login')
+            res.redirect('/');
         }
         else res.send({status:'error', message: 'Problema al cerrar sesion'})
     })

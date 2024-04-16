@@ -12,7 +12,6 @@ const userSchema = new mongoose.Schema({
     },
     email: {
         type:String,
-        required: true
     },
     age: {
         type:Number,
@@ -20,7 +19,6 @@ const userSchema = new mongoose.Schema({
     },
     password:{
         type:String,
-        required: true
     }
 })
 const userModel= mongoose.model(userCollection,userSchema)

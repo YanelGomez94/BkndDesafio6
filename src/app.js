@@ -9,6 +9,8 @@ import productsRouter from './routes/products.router.js'
 import cartsRouter from './routes/cart.router.js'
 import Messages from './dao/dbManagers/messages.js'
 import sessionRouter from './routes/sessions.router.js'
+import passport from "passport";
+import initPassport from "./config/passport.config.js"
 
 import { Server } from "socket.io";
 
@@ -29,8 +31,7 @@ app.use(express.static(__dirname + "/public"));
 
 app.use(session({
     store: MongoStore.create({
-      mongoUrl:"mongodb+srv://shaniigomez94:jaejoong33@ecommercecoder.pttrffx.mongodb.net/EcommerceCoder",
-      mongoOptions:{ useNewUrlParser:true, useUnifiedTopology:true},
+        mongoUrl:"mongodb+srv://shaniigomez94:jaejoong33@ecommercecoder.pttrffx.mongodb.net/EcommerceCoder",
       ttl:3600
     }),
     secret:"12345abcd",
@@ -38,12 +39,19 @@ app.use(session({
     saveUninitialized:false
 }))
 
+initPassport();
+app.use(passport.session({
+    secret:"SecretCoders"
+}));
+
+app.use(passport.initialize());
+
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 app.use('/',viewRouter)
 app.use('/api/products', productsRouter)
 app.use('/api/carts', cartsRouter)
-app.use('/api/sessions',sessionRouter)
+app.use('/api/session',sessionRouter)
 
 const messages=[];
 io.on('connection',socket=>{
@@ -53,4 +61,3 @@ io.on('connection',socket=>{
         messagesManager.addMessage(data)
     })
 })
-
