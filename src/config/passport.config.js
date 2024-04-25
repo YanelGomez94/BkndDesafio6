@@ -119,4 +119,3 @@ const initPassport =() =>
 }
 
 export default initPassport;
-
