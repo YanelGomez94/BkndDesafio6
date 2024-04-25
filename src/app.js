@@ -23,7 +23,6 @@ const messagesManager = new Messages()
 
 mongoose.set('strictQuery',false)
 const connection = mongoose.connect('mongodb+srv://shaniigomez94:jaejoong33@ecommercecoder.pttrffx.mongodb.net/EcommerceCoder')
-
 app.engine('handlebars',handlebars.engine());
 app.set('views',__dirname+'/views')
 app.set('view engine','handlebars');
@@ -31,8 +30,8 @@ app.use(express.static(__dirname + "/public"));
 
 app.use(session({
     store: MongoStore.create({
-        mongoUrl:"mongodb+srv://shaniigomez94:jaejoong33@ecommercecoder.pttrffx.mongodb.net/EcommerceCoder",
-      ttl:3600
+    mongoUrl:"mongodb+srv://shaniigomez94:jaejoong33@ecommercecoder.pttrffx.mongodb.net/EcommerceCoder",
+    ttl:3600
     }),
     secret:"12345abcd",
     resave:false,

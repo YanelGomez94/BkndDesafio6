@@ -20,7 +20,7 @@ form.addEventListener('submit', e =>{
             Swal.fire({
                 icon: 'error',
                 title: 'Error',
-                text: 'Credenciales incorrectas',
+                text: 'Problema al iniciar sesion.',
             })
         }
     })
