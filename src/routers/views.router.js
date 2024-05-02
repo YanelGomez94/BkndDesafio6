@@ -1,11 +1,9 @@
 import { Router } from "express";
-import Carts from '../dao/dbManagers/carts.js'
-import Messages from '../dao/dbManagers/messages.js'
-import productsModel from "../dao/models/products.js";
+import cartsController from '../controllers/carts.controller.js'
+import messagesController from '../controllers/messages.controller.js'
+import productsModel from "../model/products.model.js";
 import mongoose from "mongoose";
 
-const cartsManager = new Carts()
-const messagesManager = new Messages()
 const router = Router()
 
 router.get('/products', async (req,res) => {
@@ -48,7 +46,7 @@ router.get('/carts/:cid', async(req,res) => {
         const id  = req.params.cid
         if (!mongoose.Types.ObjectId.isValid(id)) 
             return res.status(400).send('ID de carrito no válido')
-        let cart = await cartsManager.getById(id)
+        let cart = await cartsController.getCartById(id)
         if (!cart || cart.length === 0) 
             return res.status(404).send('Carrito no encontrado')
         if(cart.products.length === 0)
@@ -68,7 +66,7 @@ router.get('/carts/:cid', async(req,res) => {
 })
 
 router.get("/chat", async(req, res) => {
-    let messages = await messagesManager.getAll()
+    let messages = await messagesController.getMessages()
 	res.render("chat", {messages})
 })
 

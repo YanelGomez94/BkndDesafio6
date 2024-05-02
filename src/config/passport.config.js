@@ -1,10 +1,18 @@
+import { config } from 'dotenv';
 import passport from "passport";
 import local from "passport-local";
-import userModel from "../dao/models/users.js";
+import userModel from "../model/users.model.js"
 import githubService from 'passport-github2';
-import { createHash, isValidPassword } from "../utils.js";
+import { createHash, isValidPassword } from "../utils/utils.js";
+
+config();
+const ADMIN_USERNAME= process.env.ADMIN_USERNAME
+const ADMIN_PASS= process.env.ADMIN_PASS
+const GIT_CLIENT_ID= process.env.GIT_CLIENT_ID
+const GIT_CLIENT_SECRET=process.env.GIT_CLIENT_SECRET
 
 const localStrategy = local.Strategy;
+
 
 const initPassport =() =>
 {
@@ -57,7 +65,7 @@ const initPassport =() =>
         session:false
     },  async (req, username, password, done) => {
             try{
-                if(username === 'adminCoder@coder.com' && password ==='adminCod3r123'){
+                if(username === ADMIN_USERNAME && password ===ADMIN_PASS){
                     req.session.user={
                         name: `Coderhouse`,
                         rol: 'admin',
@@ -91,9 +99,9 @@ const initPassport =() =>
     )
 
     passport.use('github', new githubService({
-        clientID: "Iv1.b680595be8f4648f",
-        clientSecret: "e1ebb71a4fc3fea206c60e6d0bc3e2cbda41a3bf",
-        callbackURL: "http://localhost:8080/api/sessions/githubcallback" 
+        clientID: GIT_CLIENT_ID,
+        clientSecret: GIT_CLIENT_SECRET,
+        callbackURL: "http://localhost:8080/api/session/githubcallback"
     }, async (accessToken,refreshToken,profile, done)=>
         { 
             try{
